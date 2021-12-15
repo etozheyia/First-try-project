@@ -2,11 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cd13f895-bc3c-4534-9383-13dd6e2164c2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Nested lists/Task 1.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Nested lists/Task 2.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Nested lists/Task 3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Nested lists/Task 4.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Nested lists/Task 5.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -26,6 +21,7 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Nested lists/Task 5.py" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/Nested lists/Task 6.py" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/Cycle While/Task 11.py" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
