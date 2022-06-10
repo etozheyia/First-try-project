@@ -4,9 +4,10 @@
 # 3. Декоратор, проверяющий типы, переданных декорируемой функции, аргументов.
 # 4. Декоратор, который кэширует результат работы функции, тем самым обеспечивает единственный вызов функции.
 
-def timer(func):
-    import time
+import time
 
+
+def timer(func):
     def wrapper(*args, **kwargs):
         start = time.time()
         rv = func(*args, **kwargs)
@@ -17,11 +18,9 @@ def timer(func):
 
 
 def data_writer(func):
-    import time
-
     def wrapper(*args, **kwargs):
         start = time.time()
-        func(*args, **kwargs)
+        rv = func(*args, **kwargs)
         end = time.time()
         func_time = f'Время работы функции: {end - start} секунд'
         func_name = func.__name__
@@ -29,29 +28,30 @@ def data_writer(func):
             file.write(f'Имя фукции: {func_name}')
         with open('function_info.txt', 'a') as file:
             file.write('\n' + func_time)
-            if len(args) > 0:
+            if args:
                 file.write('\nПозиционные параметры функции: ')
                 for item in args:
-                    file.write(item + ' ')
-            if len(kwargs) > 0:
+                    file.write(str(item) + ' ')
+            if kwargs:
                 file.write(f'\nИменованные параметры функции: ')
                 for value in kwargs.values():
-                    file.write(value + ' ')
+                    file.write(str(value) + ' ')
+        return rv
     return wrapper
 
 
 def type_checker(func):
     def wrapper(*args, **kwargs):
         rv = func(*args, **kwargs)
-        if len(args) > 0:
+        if args:
             print('Типы позиционных параметров:')
             for item in args:
                 print(type(item))
-        if len(kwargs) > 0:
+        if kwargs:
             print('Типы именованных параметров:')
             for value in kwargs.values():
                 print(type(value))
-        if len(args) == 0 and len(kwargs) == 0:
+        if not args and not kwargs:
             print('Функция не имеет параметров')
         return rv
     return wrapper

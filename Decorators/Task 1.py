@@ -1,10 +1,13 @@
 # Даны строка и словарь. Необходимо, используя декоратор, записать эти 2 объекта в разные файлы:
 # словарь записать в json-файл, а строку - в текстовый.
 
-def data_writer(func):
-    import json
+import json
 
+
+def data_writer(func):
     def wrapper(string, dictionary):
+        assert type(string) == str, 'Переданный аргумент не является строкой'
+        assert type(dictionary) == dict, 'Переданный аргумент не является словарём'
         func(string, dictionary)
         with open('string_file.txt', 'w') as file:
             file.write(string)

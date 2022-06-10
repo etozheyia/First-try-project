@@ -5,9 +5,8 @@ filename = 'task_1.txt'
 text = []
 print('Введите строку данных')
 line = input()
-while len(line) != 0:
+while line:
     text.append(line + '\n')
-    line = ''
     print('Введите новую строку данных')
     line = input()
 text.append('')

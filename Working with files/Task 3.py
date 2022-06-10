@@ -4,15 +4,18 @@
 filename = 'task_3.txt'
 students = []
 overall_score = 0
-with open(filename, encoding="utf8") as file_list:
+with open(filename) as file_list:
     for row in file_list:
         students.append(row.split(','))
 
-for i in range(len(students)):
-    for j in range(len(students[i])):
-        if j == 1:
-            overall_score += int(students[i][j])
-            if int(students[i][j]) < 3:
-                print(students[i][0])
+student_mark_position = 1
+passing_score = 3
+weak_student = 0
+for line in range(len(students)):
+    for student_info in range(len(students[line])):
+        if student_info == student_mark_position:
+            overall_score += int(students[line][student_info])
+            if int(students[line][student_info]) < passing_score:
+                print(students[line][weak_student])
 
 print(overall_score / len(students))

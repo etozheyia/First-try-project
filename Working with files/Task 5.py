@@ -4,5 +4,8 @@
 import os
 
 print('Введите путь к каталогу')
-current_path = input()
-print('Все файлы и папки в каталоге:', os.listdir(current_path))
+current_path = input('Формат ввода: "Локальный диск:Директория/Вложенная директория и т.д."')
+try:
+    print('Все файлы и папки в каталоге:', os.listdir(current_path))
+except FileNotFoundError:
+    print('Был указан некорректный путь')
