@@ -4,8 +4,9 @@
 import requests
 import re
 
-response = requests.get('https://proglib.io/')
+url = 'https://proglib.io/'
+response = requests.get(url, timeout=5)
 content = response.text
-result_png = re.findall(r'http[:\w./_-]*\.png', content)
-result_jpg = re.findall(r'http[:\w./_-]*\.jpg', content)
-print(result_png, result_jpg)
+regex_without_format = r'http[:\w./_-]*\.'
+result = re.findall(rf'{regex_without_format}png|{regex_without_format}jpg', content)
+print(set(result))
