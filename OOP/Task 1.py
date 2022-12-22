@@ -8,21 +8,16 @@ class Vector:
         self.y = y
 
     def __add__(self, other):
-        if isinstance(other, Vector):
-            return self.x + other.x, self.y + other.y
-        raise NotImplemented('Вектор необходимо сложить с другим вектором')
+        return Vector(self.x + other.x, self.y + other.y)
 
     def __sub__(self, other):
-        if isinstance(other, Vector):
-            return self.x - other.x, self.y - other.y
-        raise NotImplemented('Из вектора необходимо вычесть другой вектор')
+        return Vector(self.x - other.x, self.y - other.y)
 
     def __mul__(self, other):
-        if isinstance(other, (int, float)):
-            return self.x * other, self.y * other
-        raise NotImplemented('Необходимо перемножить вектор на число')
+        return Vector(self.x * other.x, self.y * other.y)
 
     def __eq__(self, other):
-        if isinstance(other, Vector):
-            return self.x == other.x and self.y == other.y
-        raise TypeError('Операнд справа должен иметь тип Vector')
+        return self.x == other.x and self.y == other.y
+
+    def __ne__(self, other):
+        return self.x != other.x or self.y != other.y

@@ -3,138 +3,138 @@
 # некоторых случаев использования. Законченная программа должна выводить состояния объектов,
 # их действия (методы) и взаимодействие объектов.
 
-# Я не стал делать атрибуты приватными и писать под них сеттеры и валидаторы, т.к. это дополнительные объёмы строк кода
-# для каждого класса. Их тут и так не мало получилось. Ограничился атрибутами, выставленными по умолчанию. Но я понимаю,
-# что можно было так сделать (в идеале, конечно, так и нужно сделать).
-
 from random import randint
+import time
+
+
+class Person:
+
+    def __init__(self, name, surname, sex, age, personal_account=2000, booked_rooms=0, alcohol_consumed=0):
+        self.name = name
+        self.surname = surname
+        self.sex = sex
+        self.age = age
+        self.personal_account = personal_account
+        self.booked_rooms = booked_rooms
+        self.alcohol_consumed = alcohol_consumed
+        self.vacation = None
+
+    def take_vacation(self, days, vacation_type):
+        self.vacation = Vacation(days, vacation_type)
+        success = True
+        return success
+
+    def __repr__(self):
+        return self.name
 
 
 class Vacation:
 
-    name = 'Ivan'
-    age = 25
-    occupation = 'tourist'
+    def __init__(self, days, vacation_type):
+        self.days = days
+        self.vacation_type = vacation_type
 
-    def __init__(self, personal_account=2000, booked_rooms=0, alcohol_consumed=0):
-        self.personal_account = personal_account
-        self.booked_rooms = booked_rooms
-        self.alcohol_consumed = alcohol_consumed
-
-    def get_values(self):
-        return {'name': self.name, 'age': self.age, 'occupation': self.occupation,
-                'personal account': self.personal_account, 'booked rooms': self.booked_rooms,
-                'alcohol consumed': self.alcohol_consumed}
+    def __repr__(self):
+        return f'{self.days} days - {self.vacation_type}'
 
 
 class Hotel:
 
-    name = 'Anna'
-    age = 29
-    occupation = 'receptionist'
-    workplace = 'reception'
-
-    def __init__(self, room_stock=75):
+    def __init__(self, name, room_stock=75, room_price=100):
+        self.name = name
         self.room_stock = room_stock
+        self.room_price = room_price
 
-    def reservation(self, other):
-        if isinstance(other, Vacation):
-            if other.booked_rooms == 0:
+    def book_room(self, days, person):
+        success = False
+
+        if self.room_stock and person.personal_account >= self.room_price:
+            need_money = self.room_price * days
+            if person.personal_account >= need_money:
                 self.room_stock -= 1
-                other.booked_rooms += 1
-                other.personal_account = other.personal_account - ((other.personal_account // 100) * 15)
+                person.booked_rooms += 1
+                person.personal_account -= need_money
                 print('Номер забронирован')
-                return self.room_stock, other.booked_rooms, other.personal_account
-            else:
-                print('Клиент уже забронировал номер')
-                return other.booked_rooms
-        raise TypeError('Параметр должен иметь тип Vacation')
+                success = True
+        else:
+            print('Свободных номеров нет')
 
-    def get_values(self):
-        return {'name': self.name, 'age': self.age, 'occupation': self.occupation,
-                'workplace': self.workplace, 'room stock': self.room_stock, 'action': 'reservation'}
+        return success
+
+    def __repr__(self):
+        return self.name
 
 
 class Bar:
 
-    name = 'Boris'
-    age = 33
-    occupation = 'bartender'
-    workplace = 'bar counter'
-
-    def __init__(self, bottles_of_alcohol=500):
+    def __init__(self, name, bottles_of_alcohol=500, bottle_price=10):
+        self.name = name
         self.bottles_of_alcohol = bottles_of_alcohol
+        self.bottle_price = bottle_price
 
-    def alcohol_bottling(self, other):
-        if isinstance(other, Vacation):
-            if other.alcohol_consumed <= 1:
-                self.bottles_of_alcohol -= 1
-                other.personal_account = other.personal_account - ((other.personal_account // 100) * 0.15)
-                other.alcohol_consumed += 1
-                print('Посетитель выпил бутылку алкоголя')
-                return self.bottles_of_alcohol, other.alcohol_consumed, other.personal_account
-            else:
-                print('Посетитель перебрал и сейчас в отключке. Бармен больше не наливает')
-                other.alcohol_consumed = 0
-                print('Посетитель проспался и может дальше пить')
-                return other.alcohol_consumed
-        raise TypeError('Параметр должен иметь тип Vacation')
+    def drink_alcohol(self, person):
+        success = False
 
-    def get_values(self):
-        return {'name': self.name, 'age': self.age, 'occupation': self.occupation,
-                'workplace': self.workplace, 'bottles of alcohol': self.bottles_of_alcohol,
-                'action': 'alcohol bottling'}
+        if self.bottles_of_alcohol and not person.alcohol_consumed and person.personal_account >= self.bottle_price:
+            self.bottles_of_alcohol -= 1
+            person.alcohol_consumed += 1
+            person.personal_account -= self.bottle_price
+            print('Посетитель выпил бутылку алкоголя')
+            success = True
+        else:
+            person.alcohol_consumed = 0
+            print('Посетитель перебрал и сейчас в отключке. Бармен больше не наливает')
+            time.sleep(1)
+            print('Посетитель проспался и может дальше пить')
+
+        return success
+
+    def __repr__(self):
+        return self.name
 
 
 class Casino:
 
-    name = 'Kate'
-    age = 24
-    occupation = 'croupier'
-    workplace = 'gambling table'
-
-    def __init__(self, casino_balance=1000000, minimal_bet=10):
+    def __init__(self, name, casino_balance=1000000, minimal_bet=10):
+        self.name = name
         self.casino_balance = casino_balance
         self.minimal_bet = minimal_bet
 
-    def gambling(self, other, game_bet):
-        if isinstance(other, Vacation):
-            if other.personal_account >= self.minimal_bet and game_bet >= self.minimal_bet:
-                grn = randint(1, 10)
-                if grn == 3 or grn == 7 or grn == 9:
-                    other.personal_account += game_bet
-                    self.casino_balance -= game_bet
-                    print(f'Посетитель выиграл {game_bet} долларов в казино!')
-                    return self.casino_balance, other.personal_account
-                else:
-                    other.personal_account -= game_bet
-                    self.casino_balance += game_bet
-                    print(f'Посетитель проиграл {game_bet} долларов в казино')
-                    return self.casino_balance, other.personal_account
+    def make_bet(self, person, bet_amount):
+        success = False
+
+        if person.personal_account >= bet_amount >= self.minimal_bet \
+                and self.minimal_bet <= bet_amount <= self.casino_balance:
+            victory_numbers = [3, 7, 9]
+            if randint(1, 10) in victory_numbers:
+                person.personal_account += bet_amount
+                self.casino_balance -= bet_amount
+                print(f'Посетитель выиграл {bet_amount} долларов в казино!')
+                success = True
             else:
-                print('У посетителя нет денег на ставку, либо посетитель сделал слишком низкую ставку')
-                return other.personal_account, game_bet, self.minimal_bet
-        raise TypeError('Параметр должен иметь тип Vacation')
+                person.personal_account -= bet_amount
+                self.casino_balance += bet_amount
+                print(f'Посетитель проиграл {bet_amount} долларов в казино')
+        else:
+            print('У посетителя нет денег на ставку, либо посетитель сделал слишком низкую ставку')
 
-    def get_values(self):
-        return {'name': self.name, 'age': self.age, 'occupation': self.occupation,
-                'workplace': self.workplace, 'casino balance': self.casino_balance, 'minimal bet': self.minimal_bet,
-                'action': 'gambling'}
+        return success
+
+    def __repr__(self):
+        return self.name
 
 
-Ivan = Vacation()
-Boris = Bar()
-Anna = Hotel()
-Kate = Casino()
-print(Anna.reservation(Ivan))
-print(Anna.reservation(Ivan))
-print(Kate.gambling(Ivan, 9))
-print(Kate.gambling(Ivan, 50))
-print(Boris.alcohol_bottling(Ivan))
-print(Boris.alcohol_bottling(Ivan))
-print(Boris.alcohol_bottling(Ivan))
-print(Boris.alcohol_bottling(Ivan))
-print(Ivan.get_values())
-print(Anna.get_values())
-print(Boris.get_values())
-print(Kate.get_values())
+ivan = Person('Ivan', 'Kozlov', 'm', 30)
+ivan.take_vacation(20, 'paid')
+print(ivan.vacation)
+
+hotel_california = Hotel('California')
+hotel_california.book_room(5, ivan)
+
+bar_avos = Bar('Avos')
+bar_avos.drink_alcohol(ivan)
+bar_avos.drink_alcohol(ivan)
+
+casino_grand = Casino('Grand')
+casino_grand.make_bet(ivan, 3000)
+casino_grand.make_bet(ivan, 1000)

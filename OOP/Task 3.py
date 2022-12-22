@@ -7,12 +7,11 @@ from math import sqrt
 
 class Triangle:
 
-    name = 'Треугольник'
-
     def __init__(self, side_1, side_2, side_3):
         self.side_1 = side_1
         self.side_2 = side_2
         self.side_3 = side_3
+        self.name = 'Треугольник'
 
     def get_area(self):
         half_perimeter = (self.side_1 + self.side_2 + self.side_3) / 2
@@ -33,12 +32,11 @@ class Triangle:
 
 class Rectangle:
 
-    name = 'Прямоугольник'
-
     def __init__(self, width, height, edge):
         self.width = width
         self.height = height
         self.edge = edge
+        self.name = 'Прямоугольник'
 
     def get_area(self):
         return self.width * self.height
@@ -52,10 +50,9 @@ class Rectangle:
 
 class Square:
 
-    name = 'Квадрат'
-
     def __init__(self, side):
         self.side = side
+        self.name = 'Квадрат'
 
     def get_area(self):
         return self.side ** 2
@@ -69,13 +66,12 @@ class Square:
 
 class Trapeze:
 
-    name = 'Трапеция'
-
     def __init__(self, top_base, bottom_base, lateral_side, height):
         self.top_base = top_base
         self.bottom_base = bottom_base
         self.lateral_side = lateral_side
         self.height = height
+        self.name = 'Трапеция'
 
     def get_area(self):
         return 0.5 * (self.top_base + self.bottom_base) * self.height
@@ -93,10 +89,9 @@ class Trapeze:
 
 class Circle:
 
-    name = 'Круг'
-
     def __init__(self, radius):
         self.radius = radius
+        self.name = 'Круг'
 
     def get_area(self):
         return 3.14 * (self.radius ** 2)
